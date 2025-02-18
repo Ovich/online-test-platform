@@ -349,51 +349,15 @@ const PageAdmin = () => {
                     },
                   }))}
                 />
-
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    gap: 3,
-                    pt: 2,
-                    borderColor: 'divider',
-                  }}
-                >
-                  <FormControl size="small" sx={{ minWidth: 100 }}>
-                    <Select
-                      value={pageSize}
-                      onChange={(e) => handlePageSizeChange(e.target.value)}
-                      displayEmpty
-                    >
-                      <MenuItem value={10}>10 Rows</MenuItem>
-                      <MenuItem value={25}>25 Rows</MenuItem>
-                      <MenuItem value={50}>50 Rows</MenuItem>
-                    </Select>
-                  </FormControl>
-
-                  <Stack direction="row" spacing={2} alignItems="center">
-                    <Stack direction="row" spacing={1} alignItems="center">
-                      <IconButton
-                        onClick={() => handlePageChange(page - 1)}
-                        disabled={page <= 1}
-                        size="small"
-                      >
-                        <ChevronLeftIcon />
-                      </IconButton>
-                      <Typography variant="body2">Page {page}</Typography>
-                      <IconButton
-                        onClick={() => handlePageChange(page + 1)}
-                        disabled={page >= pagination.totalPages}
-                        size="small"
-                      >
-                        <ChevronRightIcon />
-                      </IconButton>
-                    </Stack>
-                  </Stack>
-                </Box>
               </Stack>
             </ScrollContainer>
+            <PagingControls
+              page={page}
+              totalPages={pagination.totalPages}
+              pageSize={pageSize}
+              handlePageChange={handlePageChange}
+              handlePageSizeChange={handlePageSizeChange}
+            />
           </Loading>
         </Stack>
       </LayoutMain>
@@ -417,6 +381,58 @@ const PageAdmin = () => {
         }}
       />
     </Authorization>
+  )
+}
+
+const PagingControls = ({
+  page,
+  totalPages,
+  pageSize,
+  handlePageChange,
+  handlePageSizeChange,
+}) => {
+  return (
+    <Stack
+      direction="row"
+      spacing={2}
+      alignItems="center"
+      justifyContent="center"
+      gap={2}
+      pt={2}
+      borderColor={'divider'}
+    >
+      <FormControl size="small" sx={{ minWidth: 100 }}>
+        <Select
+          value={pageSize}
+          onChange={(e) => handlePageSizeChange(e.target.value)}
+          displayEmpty
+        >
+          <MenuItem value={10}>10 Rows</MenuItem>
+          <MenuItem value={25}>25 Rows</MenuItem>
+          <MenuItem value={50}>50 Rows</MenuItem>
+        </Select>
+      </FormControl>
+
+      <Stack direction="row" spacing={2} alignItems="center">
+        <Stack direction="row" spacing={1} alignItems="center">
+          <IconButton
+            onClick={() => handlePageChange(page - 1)}
+            disabled={page <= 1}
+            size="small"
+          >
+            <ChevronLeftIcon />
+          </IconButton>
+          <Typography variant="body2">Page {page}</Typography>
+          <IconButton
+            onClick={() => handlePageChange(page + 1)}
+            disabled={page >= totalPages}
+            size="small"
+          >
+            <ChevronRightIcon />
+          </IconButton>
+        </Stack>
+      </Stack>
+    </Stack>
   )
 }
 
